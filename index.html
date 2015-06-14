@@ -1,0 +1,767 @@
+<!DOCTYPE HTML>
+<html lang="en">
+<head>
+	<title>Автоматизация FrontEnd. Igor Timohin</title>
+	<meta charset="utf-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta name="viewport" content="width=792, user-scalable=no">
+	<meta http-equiv="x-ua-compatible" content="ie=edge">
+	<link rel="stylesheet" href="shower/themes/ribbon/styles/screen.css">
+	<link rel="stylesheet" href="shower/themes/ribbon/styles/own.css">
+</head>
+<body class="list">
+
+	<header class="caption">
+		<h1>Автоматизация сборки FrontEnd</h1>
+		<h2>Igor Timohin</h2>
+	</header>
+
+    <!-- Enter -->
+	<section class="slide cover" id="Cover"><div>
+
+		<h2>Автоматизация сборки FrontEnd'а</h2>
+		<p>Brought to you by <a href="http://igor-timohin.ru">Igor Timohin</a></p>
+		<img src="pictures/front-end-auto.jpg" alt="Автоматизация FrontEnd">
+		<!--
+			To apply styles to the certain slides
+			set slide ID to get needed elements
+			-->
+		<style>
+			#Cover h2 {
+				color:#FFF;
+				text-align: left;
+				font-size:70px;
+				}
+			#Cover p {
+				margin:10px 0 0;
+				text-align: left;
+				color:#FFF;
+				font-style:italic;
+				font-size:20px;
+				}
+				#Cover p a {
+					color:#FFF;
+					}
+		</style>
+
+	</div></section>
+
+    <!-- Why ? -->
+	<section class="slide"><div>
+
+		<h2>Зачем нужна автоматизация</h2>
+		<ol>
+			<li class="next">Убираем рутину</li>
+			<li class="next">Увеличиваем быстродействие</li>
+			<li class="next">Проверяем код</li>
+			<li class="next">Деплоим код</li>
+		</ol>
+
+	</div></section>
+
+    <!-- Problems -->
+    <section class="slide"><div>
+
+        <h2>Какие были проблемы ?</h2>
+        <ol>
+            <li class="next">Организация кода</li>
+            <li class="next">Управление зависимостями</li>
+            <li class="next">Долгая загрузка</li>
+            <li class="next">Сложность обмена</li>
+            <li class="next">Никакой оптимизации</li>
+            <li class="next">Все вручную</li>
+        </ol>
+
+    </div></section>
+
+    <!-- All is bad -->
+    <section class="slide" id="allbad"><div>
+
+        <img src="pictures/all-bad.jpg" alt="" class="place m"/>
+
+        <style>
+            #allbad img{
+                height: 640px;
+            }
+        </style>
+
+    </div></section>
+
+    <!-- Machines must work -->
+	<section class="slide shout"><div>
+        <h2>Машины должны страдать</h2>
+	</div></section>
+
+    <!-- Node.js: Logo -->
+    <section class="slide" id="nodejs"><div>
+
+        <img src="pictures/nodejs.svg" alt="" class="place m"/>
+
+        <style>
+            #nodejs img{
+                width: 720px;
+            }
+        </style>
+
+    </div></section>
+
+    <!-- Node: Install on OS X-->
+    <section class="slide"><div>
+
+		<h2>Установка Node.js на OS X</h2>
+        <ol>
+            <li>
+                Установим Homebrew <br/>
+                <a href="http://brew.sh/" target="_blank">http://brew.sh/</a> <br/>
+            </li>
+            <li><code>$ brew install node</code></li>
+            <li>или скачаем <a href="https://nodejs.org/download/" target="_blank">установочный пакет</a> </li>
+        </ol>
+        <p class="note"><a href="https://github.com/joyent/node/wiki/Installing-Node.js-via-package-manager" target="_blank">Installing Node.js via package manager</a></p>
+
+	</div></section>
+
+    <!-- Node: Install on Windows -->
+    <section class="slide" id="node-win"><div>
+
+        <h2>Установка Node.js на Windows</h2>
+        <ol>
+            <li>
+                Установим Chocolatey <br/>
+                <a href="https://chocolatey.org/" target="_blank">https://chocolatey.org/</a> <br/>
+            </li>
+            <li><code>C:\> choco install nodejs.install</code></li>
+            <li>или скачаем <a href="https://nodejs.org/download/" target="_blank">установочный пакет</a> </li>
+        </ol>
+        <p class="note"><a href="https://github.com/joyent/node/wiki/Installing-Node.js-via-package-manager" target="_blank">Installing Node.js via package manager</a></p>
+        <p class="note"><a href="https://chocolatey.org/packages" target="_blank">Chocolatey - пакетный менеджер для Windows</a></p>
+
+        <style>
+            #node-win p.note{
+                margin-bottom: 10px;
+            }
+        </style>
+    </div></section>
+
+    <!-- Node: work -->
+    <section class="slide" id="node-work"><div>
+
+        <h2>Инициализация проекта</h2>
+        <ol>
+            <li class="next"><code>$ npm init</code> и отвечаем на вопросы</li>
+            <li class="next"><mark>package.json</mark> - конфигурационный файл</li>
+            <li class="next"><code>npm install package-name</code> - установка пакетов вручную</li>
+            <li class="next"><code>npm i package-name</code> - сокращенный вариант</li>
+            <li class="next"><code>--save</code> - сохранение имени пакета в dependencies файла package.json</li>
+            <li class="next"><code>--save-dev</code> - сохранение имени пакета в devDependencies файла package.json</li>
+        </ol>
+
+    </div></section>
+
+    <!-- Node: work -->
+    <section class="slide" id="node-work2"><div>
+
+        <h2>Автоматическая установка</h2>
+        <p>При наличии package.json с прописанными пакетами. Вариант для разработки:</p>
+        <code>npm install</code>
+        <i>или</i>
+        <code>npm i</code> <br/><br/>
+        <blockquote>устанавливаются пакеты прописанные в секциях dependencies и в devDependencies</blockquote>
+
+    </div></section>
+
+    <!-- Node: work -->
+    <section class="slide" id="node-work3"><div>
+
+        <h2>Автоматическая установка</h2>
+        <p>При наличии package.json с прописанными пакетами. Вариант для production:</p>
+        <code>npm install --production</code>
+        <i>или</i>
+        <code>npm i --production</code> <br/><br/>
+        <blockquote>Пакеты из devDependencies не устанавливаются </blockquote>
+
+    </div></section>
+
+    <!-- Bower: Logo -->
+    <section class="slide " id="bower"><div>
+
+        <img src="pictures/bower-logo.png" alt="" class="place m"/>
+
+        <style>
+            #bower img{
+                width: 720px;
+            }
+        </style>
+
+    </div></section>
+
+    <!-- Bower: Install -->
+    <section class="slide" id="bower-install"><div>
+
+        <h2>Bower</h2>
+        <p>Устанавливаем Bower, пакеты и их зависимости</p>
+        <p>
+            <code class="">
+                $ npm install -g bower <br/>
+                $ cd /path-to-app && bower init # Инициализируем <br/>
+                $ bower install jquery # registered package<br/>
+                $ bower install desandro/masonry # GitHub shorthand<br/>
+                $ bower install git://github.com/user/package.git # Git endpoint <br/>
+                $ bower install http://example.com/script.js # URL
+            </code>
+        </p>
+
+        <style>
+            #bower-install p {
+                margin-bottom: 10px;
+            }
+        </style>
+
+    </div></section>
+
+    <!-- Bower: Using -->
+    <section class="slide" id="use-bower"><div>
+
+        <h2>Bower</h2>
+        <p>Ищем пакеты, сохраняем зависимости проекта</p>
+        <p>
+            <code class="">
+                $ bower search package-name <br/>
+                $ bower install bootstrap  --save <br/>
+                $ bower install social-likes  --save-dev <br/>
+            </code>
+        </p>
+        <p>Пакеты будут установлены в /path-to-app/bower_components/</p>
+        <p><mark>bower.json</mark> - конфигурационный файл Bower</p>
+        <p class="note"><a href="http://bower.io/" target="_blank">http://bower.io/</a></p>
+
+        <style>
+            #use-bower p {
+                margin-bottom: 10px;
+            }
+        </style>
+
+    </div></section>
+
+    <!-- Bower: Using -->
+    <section class="slide" id="use-bower2"><div>
+
+        <h2>Bower</h2>
+        <p>Обновляем, удаляем</p>
+        <p>
+            <code class="">
+                $ bower update # Обновление версий пакетов (по semver) <br/>
+                $ bower uninstall package-name #
+            </code>
+        </p>
+        <p>Пакеты будут установлены в /path-to-app/bower_components/</p>
+        <p><mark>bower.json</mark> - конфигурационный файл Bower</p>
+        <p class="note"><a href="http://bower.io/" target="_blank">http://bower.io/</a></p>
+
+        <style>
+            #use-bower2 p {
+                margin-bottom: 10px;
+            }
+        </style>
+
+    </div></section>
+
+    <!-- Bower: Self work-->
+    <section class="slide" id="self-work-1"><div>
+
+        <h2>Пробуем самостоятельно</h2>
+
+        <ol>
+            <li>Установить node.js</li>
+            <li>Установить bower</li>
+            <li>Установить Bootstrap, Modernizr, Font Awesome </li>
+            <li>Создать репозиторий на GitHub</li>
+            <li>Сверстать простой Landing Page</li>
+            <li>Закоммитить и залить на GitHub</li>
+            <li>Показать коллеге / саппорту</li>
+        </ol>
+        <p class="note"><a href="http://enkil.github.io/pres__frontend-up/" target="_blank">Linux, console & Git</a></p>
+
+        <style>
+            #self-work-1 ol{
+                margin-bottom: 20px;
+            }
+        </style>
+
+    </div></section>
+
+    <!-- Bower: What we get?-->
+    <section class="slide"><div>
+
+        <h2>Что получили?</h2>
+
+        <ol>
+            <li class="next">Управление зависимостями</li>
+            <li class="next">Всегда знаем версию</li>
+            <li class="next">Вовремя и легко обновляемся</li>
+            <li class="next">Не храним 3d party в Git</li>
+            <li class="next">Легко обмениваемся и рабоатем вместе</li>
+        </ol>
+        <p class="note"><a href="http://bower.io/" target="_blank">http://bower.io/</a></p>
+
+    </div></section>
+
+    <!-- Bower: Lunch =) -->
+    <section class="slide cover" id="sworm"><div>
+
+        <img src="pictures/sworm.jpg" alt=""/>
+        <h2>Антракт</h2>
+
+        <style>
+            #sworm h2 {
+                color:#FFF;
+                text-align: left;
+                font-size:70px;
+            }
+        </style>
+
+    </div></section>
+
+    <!-- CSS: not optimised -->
+    <section class="slide cover"><div>
+
+        <img src="pictures/no-pls.jpg" alt=""/>
+
+    </div></section>
+
+    <!-- JS: not optimised -->
+    <section class="slide cover"><div>
+
+        <img src="pictures/no-pls-2.jpg" alt=""/>
+
+    </div></section>
+
+    <!-- Cat -->
+    <section class="slide cover" id="cat"><div>
+
+        <img src="pictures/no-pls-cat.jpg" alt=""/>
+        <h2>Не надо так</h2>
+
+        <style>
+            #cat h2 {
+                margin-left: 50%;
+                margin-top: 50%;
+                font-size: 74px;
+                color: #fff;
+                text-shadow: 2px 2px 5px hsla(0,0%,0%,.6);
+            }
+        </style>
+
+    </div></section>
+
+    <!-- Gulp: Logo -->
+    <section class="slide" id="gulp"><div>
+
+        <img src="pictures/gulp-white-text.svg" alt="" class="place m"/>
+
+        <style>
+            #gulp{
+                background-color: #cf4646;
+            }
+            #gulp img{
+                width: 720px;
+            }
+        </style>
+
+    </div></section>
+
+    <!-- Gulp: About -->
+    <section class="slide"><div>
+
+        <h2>Gulp.js (Gulp) - потоковый менеджер задач (task runner) для сборки проектов</h2>
+
+        <ul>
+            <li class="next">Конкатенация и минификация CSS и JS</li>
+            <li class="next">Компиляция Less, Sass, Stylus</li>
+            <li class="next">Оптимизация изображений</li>
+            <li class="next">Создание спрайтов</li>
+            <li class="next">Проверка кода, тестирование, деплой</li>
+            <li class="next">и многое другое</li>
+        </ul>
+
+    </div></section>
+
+    <!-- Gulp: Install -->
+    <section class="slide"><div>
+
+        <h2>Установка</h2>
+
+        <ul>
+            <li class="next"><code>npm install --global gulp</code> - сначала глобально</li>
+            <li class="next"><code>npm install --save-dev gulp</code> - затем как зависимость проекта</li>
+            <li class="next"><mark>gulpfile.js</mark> - конфигурационный файл с описанием задач</li>
+
+        </ul>
+
+        <p class="note"><a href="http://gulpjs.com/" target="_blank">http://gulpjs.com/</a></p>
+
+    </div></section>
+
+    <!-- Gulp: 1 step -->
+    <section class="slide"><div>
+
+        <h2>gulpfile.js</h2>
+        Gulpfile - javascript файл описывающий подключение пакетов, задачи gulp и при необходимости сервисные функции
+        <br/>
+
+        <code>npm install --save-dev gulp-util</code><br/>
+        <code>touch gulpfile.js</code> <br/>
+        <pre class="prettyprint linenums">
+            var gulp  = require('gulp'),
+            gutil = require('gulp-util');
+            gulp.task('default', function() {
+            return gutil.log('Gulp is running!')});</pre>
+
+    </div></section>
+
+    <!-- Gulp: Plugins -->
+    <section class="slide"><div>
+
+        <h2>Плагины</h2>
+        <p>Общего назначения</p>
+        <pre class="prettyprint small-code linenums">
+            /* Gulp plugins */ <br/>
+            var gulp = require('gulp'), // Task runner<br/>
+            watch = require('gulp-watch'), // Watch, that actually is an endless stream<br/>
+            rename = require("gulp-rename"), // Rename files<br/>
+            del = require('del'), // Delete something<br/>
+            rigger = require('gulp-rigger'), // // Include content of one file to another<br/>
+            size = require('gulp-size'), // Display the size of something<br/>
+            path = require('path'),
+        runSequence = require('run-sequence').use(gulp), // Run a series of dependent gulp tasks in order</pre>
+
+        <style>
+            .small-code {
+                font-size: 16px;
+            }
+        </style>
+
+    </div></section>
+
+    <!-- Gulp: Plugins -->
+    <section class="slide"><div>
+
+        <h2>Плагины</h2>
+        <p>HTML, Less, CSS</p>
+        <pre class="prettyprint small-code linenums">
+             processhtml = require('gulp-processhtml'), // Plugin uses Denis Ciccale's node-htmlprocessor to process/transform html files
+    concat = require('gulp-concat'), // Concatenates files
+    streamqueue = require('streamqueue'), // Pipe queued streams progressively, keeping datas order.
+    sourcemaps = require('gulp-sourcemaps'), // Write source maps
+    less = require('gulp-less'), // Compile Less to CSS
+    lessReporter = require('gulp-less-reporter'), // Error reporter for gulp-less
+    autoprefixer = require('gulp-autoprefixer'), // Prefix CSS
+    csscomb = require('gulp-csscomb'), // Coding style formatter for CSS
+    minifycss = require('gulp-minify-css'), // Minify CSS</pre>
+
+        <style>
+            .small-code {
+                font-size: 16px;
+            }
+        </style>
+
+    </div></section>
+
+    <!-- Gulp: Plugins -->
+    <section class="slide"><div>
+
+        <h2>Плагины</h2>
+        <p>JS и изображения</p>
+        <pre class="prettyprint small-code linenums">
+                 uglify = require('gulp-uglify'), // Minify JS
+    jshint = require('gulp-jshint'), // JS code linter
+    stylish = require('jshint-stylish'), // Reporter for JSHint
+    imagemin = require('gulp-imagemin'), // Optimize images
+    pngquant = require('imagemin-pngquant'), // PNG plugin for ImageMin
+    spritesmith = require('gulp.spritesmith'), // Convert a set of images into a spritesheet and CSS variables
+    svg2png = require('gulp-svg2png'), // Convert SVGs to PNGs
+    svgmin = require('gulp-svgmin'), // Minify SVG with SVGO
+    svgspritesheet = require('gulp-svg-spritesheet'), // Convert a set of SVGs into a spritesheet and CSS variables</pre>
+
+        <style>
+            .small-code {
+                font-size: 14px;
+            }
+        </style>
+
+    </div></section>
+
+    <!-- Gulp: Plugins -->
+    <section class="slide"><div>
+
+        <h2>Плагины</h2>
+        <p>Livereload и деплой на GitHub Pages</p>
+        <pre class="prettyprint small-code linenums">
+                browserSync = require("browser-sync"), // Synchronised browser testing
+    reload = browserSync.reload,
+    ghPages = require('gulp-gh-pages'), // Publish contents to Github pages</pre>
+
+        <style>
+            .small-code {
+                font-size: 16px;
+            }
+        </style>
+
+    </div></section>
+
+    <!-- Gulp: Paths -->
+    <section class="slide"><div>
+
+        <h2>Общий конфиг</h2>
+        <p><a href="https://github.com/Enkil/template-frontend/blob/master/gulpfile.js" target="_blank">gulpfile.js</a></p>
+
+    </div></section>
+
+    <!-- Gulp: Less + CSS -->
+    <section class="slide cover"><div>
+
+        <img src="pictures/seriously.png" alt=""/>
+
+    </div></section>
+
+    <!-- Gulp: Less + CSS -->
+    <section class="slide"><div>
+
+        <h2>Подробнее: Less/CSS</h2>
+        <code class="small-code">npm install gulp-less gulp-less-reporter gulp-autoprefixer gulp-csscomb gulp-minify-css gulp-sourcemaps gulp-rename gulp-size --save</code>
+        <pre class="prettyprint linenums small-code">
+            gulp.task('less', function() {
+    return gulp.src(projectPath.src.style)
+        .pipe(sourcemaps.init())
+        .pipe(less({
+            paths: [ path.join(__dirname, 'less', 'includes') ]
+        }))
+        .on('error', lessReporter)
+        .pipe(autoprefixer('> 2%'))
+        .pipe(csscomb())
+        .pipe(gulp.dest(projectPath.build.css))
+        .pipe(rename({ suffix: '.min' }))
+        .pipe(minifycss())
+        .pipe(sourcemaps.write('./'))
+        .pipe(size({
+            title: 'CSS'
+        }))
+        .pipe(gulp.dest(projectPath.build.css))
+        .pipe(reload({stream: true}));
+});
+        </pre>
+
+        <style>
+            .small-code {
+                font-size: 14px;
+                line-height: 1.2;
+            }
+        </style>
+
+    </div></section>
+
+    <!-- Gulp: Self work-->
+    <section class="slide" id="self-work-2"><div>
+
+        <h2>Пробуем самостоятельно</h2>
+
+        <ol>
+            <li>Установить gulp</li>
+            <li>Установить плагины</li>
+            <li>Создать gulpfile.js</li>
+            <li>Внести в gulpfile.js вызов плагинов и настройки путей</li>
+            <li>Создать задачу обработки Less</li>
+            <li>Подключить Less из Bootstrap</li>
+            <li>Выполнить задачу, убедиться что все работает</li>
+        </ol>
+
+        <style>
+            #self-work-2 ol{
+                margin-bottom: 20px;
+            }
+        </style>
+
+    </div></section>
+
+    <!-- Gulp: from git -->
+    <section class="slide"><div>
+
+        <h2>Разбираем конфиг и пишем свой</h2>
+
+        <ol>
+            <li class="next"><a href="https://github.com/Enkil/template-frontend/blob/master/gulpfile.js" target="_blank">gulpgile.js</a></li>
+            <li class="next"><a href="https://github.com/Enkil/template-frontend/blob/master/gulpfile.js#L102" target="_blank">HTML</a></li>
+            <li class="next"><a href="https://github.com/Enkil/template-frontend/blob/master/gulpfile.js#L115" target="_blank">JavaScript</a></li>
+            <li class="next"><a href="https://github.com/Enkil/template-frontend/blob/master/gulpfile.js#L135" target="_blank">Less / CSS</a></li>
+            <li class="next"><a href="https://github.com/Enkil/template-frontend/blob/master/gulpfile.js#L156" target="_blank">Изображения</a></li>
+            <li class="next"><a href="https://github.com/Enkil/template-frontend/blob/master/gulpfile.js#L183" target="_blank">PNG и SVG срайты</a></li>
+            <li class="next"><a href="https://github.com/Enkil/template-frontend/blob/master/gulpfile.js#L266" target="_blank">Наблюдение за изменениями</a></li>
+        </ol>
+
+    </div></section>
+
+    <!-- Gulp: Self work-->
+    <section class="slide" id="self-work-3"><div>
+
+        <h2>Пробуем самостоятельно</h2>
+
+        <ol>
+            <li>Доустановить плагины</li>
+            <li>Настроить задачи по обработке HTML, JS, изображений</li>
+            <li>Создаем или корректируем структуру проекта</li>
+            <li>Собираем</li>
+            <li>Заливаем на GitHub</li>
+            <li>Заливаем на GitHub Pages</li>
+            <li>Показываем с GHP коллегам / саппортам</li>
+        </ol>
+
+        <style>
+            #self-work-3 ol{
+                margin-bottom: 20px;
+            }
+        </style>
+
+    </div></section>
+
+    <!-- Gulp Awesome -->
+    <section class="slide"><div>
+
+        <h2>- А есть в собранном виде с подробным объяснением что бы не забыть?</h2>
+        <h2>- Ага =)</h2>
+
+        <p><a href="http://enkil.github.io/template-frontend/" target="_blank">Gulp Awesome: Scaffolding boilerplate</a></p>
+
+    </div></section>
+
+    <!-- Cat =) -->
+    <section class="slide cover" id="why"><div>
+
+        <img src="pictures/cat-2.jpg" alt=""/>
+        <h2>Что ж ты молчал?</h2>
+
+        <style>
+            #why h2{
+                font-size: 70px;
+                position: relative;
+                top: 70%;
+                left: 50%;
+            }
+        </style>
+    </div></section>
+
+    <!-- Cat =) -->
+    <section class="slide cover" id="because"><div>
+
+        <img src="pictures/cat-3.jpg" alt=""/>
+        <h2>А вот! </h2>
+
+        <style>
+            #because h2{
+                color: #fff;
+                font-size: 70px;
+                position: relative;
+                top: 70%;
+                left: 0;
+            }
+        </style>
+    </div></section>
+
+    <!-- Profit -->
+    <section class="slide cover" id="profit"><div>
+
+        <img src="pictures/car.jpg" alt=""/>
+        <h2>Чего мы достигли ?</h2>
+
+        <style>
+            #profit img{
+                width: 100%;
+            }
+            #profit h2 {
+                color: #fff;
+                position: relative;
+                right: 0;
+                /*text-align: right;*/
+                top: 80%;
+            }
+        </style>
+
+    </div></section>
+
+    <!-- Profit -->
+    <section class="slide"><div>
+
+        <h2>Чего мы достигли ?</h2>
+        <ol>
+            <li class="next">Исходники отдельно в удобном нам виде, сборка отдельно</li>
+            <li class="next">Быстрая загрузка</li>
+            <li class="next">Управление зависимостями</li>
+            <li class="next">Организация кода</li>
+            <li class="next">Упрощение обмена и совместной работы</li>
+            <li class="next">Серверным программистам удобно</li>
+            <li class="next">Пользователи радуются</li>
+        </ol>
+
+    </div></section>
+
+    <!-- Next ? -->
+    <section class="slide cover" id="next"><div>
+
+        <img src="pictures/next.jpg" alt=""/>
+
+        <style>
+            #next img{
+                width: 100%;
+            }
+        </style>
+
+    </div></section>
+
+    <!-- Next -->
+    <section class="slide"><div>
+
+        <h2>Дальше</h2>
+
+        <ol>
+            <li class="next">Дорабатываем под себя</li>
+            <li class="next"><a href="http://yeoman.io/" target="_blank">Yeoman</a></li>
+            <li class="next">Jade / Haml / Slim</li>
+            <li class="next">Sass</li>
+            <li class="next">Angular</li>
+            <li class="next">Тестирование (Karma, Mocha)</li>
+            <li class="next">Добавьте по вкусу</li>
+        </ol>
+
+    </div></section>
+
+    <!-- Links -->
+    <section class="slide"><div>
+
+        <h2>Полезные ссылки</h2>
+
+        <ol>
+            <li><a href="http://gulpjs.com/" target="_blank">Gulp.js</a></li>
+            <li><a href="http://bower.io/" target="_blank">Bower</a></li>
+            <li><a href="http://enkil.github.io/template-frontend/" target="_blank">Gulp Awesome: Scaffolding boilerplate</a></li>
+            <li><a href="http://www.slideshare.net/smile42ru/ss-33729118?qid=aafe7de4-03cb-4e4c-a7b4-a080bd6d1c55&v=default&b=&from_search=35" target="_blank">Фронтенд разработка без боли</a></li>
+            <li><a href="http://www.youtube.com/results?search_query=gulpjs" target="_blank">Youtube -> Gulp.js</a></li>
+            <li><a href="http://enkil.github.io/pres__frontend-up/" target="_blank">Linux, Git, Console</a></li>
+        </ol>
+
+    </div></section>
+
+    <!-- Contacts -->
+	<section class="slide" id="Contacts"><div>
+		<h2><a href="http://igor-timohin.ru">Igor Timohin</a></h2>
+
+        <h3><a href="mailto:timohin.i@gmail.com">timohin.i@gmail.com</a></h3>
+        <h3><a href="https://vk.com/enkil">https://vk.com/enkil</a></h3>
+        <h3><a href="tel:79213016031">+7-921-301-6031</a></h3>
+
+	</div></section>
+
+
+	<div class="progress"><div></div></div>
+	<script src="shower/shower.min.js"></script>
+    <script src="https://cdn.rawgit.com/google/code-prettify/master/loader/run_prettify.js"></script>
+</body>
+</html>
